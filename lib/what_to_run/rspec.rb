@@ -1,27 +1,25 @@
-configure = -> do
+if ENV['COLLECT_WHAT_TO_RUN']
   require 'coverage'
-  require 'coverage_peeker'
   require 'what_to_run/tracker'
 
   Coverage.start
 
+  tracker = WhatToRun::Tracker.new(logs_path: ENV['COLLECT_WHAT_TO_RUN'])
+
   RSpec.configuration.before(:suite) do
-    WhatToRun::Tracker.start
+    tracker.start
   end
 
   RSpec.configuration.after(:suite) do
-    WhatToRun::Tracker.finish
+    tracker.finish
     Coverage.result
   end
 
   RSpec.configuration.around(:each) do |example|
-    before = CoveragePeeker.peek_result
+    coverage_before = Coverage.peek_result
     example.call
-    after = CoveragePeeker.peek_result
+    coverage_after = Coverage.peek_result
 
-    WhatToRun::Tracker.track \
-      example.metadata[:full_description], before, after
+    tracker.track(example.metadata[:full_description], coverage_before, coverage_after)
   end
 end
-
-configure.call if ENV['COLLECT'] && ENV['COLLECT'] != 'false'

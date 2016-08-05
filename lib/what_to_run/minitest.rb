@@ -1,6 +1,5 @@
 configure = -> do
   require 'coverage'
-  require 'coverage_peeker'
   require 'what_to_run/tracker'
 
   Coverage.start
@@ -16,9 +15,9 @@ configure = -> do
       alias :old_run_one_method :run_one_method
 
       def run_one_method(klass, method_name, reporter)
-        before = CoveragePeeker.peek_result
+        before = Coverage.peek_result
         old_run_one_method klass, method_name, reporter
-        after = CoveragePeeker.peek_result
+        after = Coverage.peek_result
         WhatToRun::Tracker.track "#{klass.name}##{method_name}", before, after
       end
     end

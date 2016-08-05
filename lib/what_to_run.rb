@@ -43,7 +43,7 @@ module WhatToRun
     def cov_map
       schema = Hash.new { |h, file| h[file] = Hash.new { |i, line| i[line] = [] } }
 
-      @cov_map ||= Tracker.read.inject(schema) do |cov_map, (desc, cov_delta)|
+      @cov_map ||= Tracker.new.read.inject(schema) do |cov_map, (desc, cov_delta)|
         cov_delta.each_pair do |file, lines|
           file_map = cov_map[file]
 

@@ -1,7 +1,7 @@
 require 'what_to_run/tracker'
 
 describe WhatToRun::Tracker do
-  subject {described_class}
+  subject { described_class.new }
 
   describe '.additional_databases' do
     it 'returns empty array if just one db exists' do
