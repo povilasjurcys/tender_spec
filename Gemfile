@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'pry-byebug'
+
 group :test do
   gem 'rake'
   gem 'rake-compiler'
@@ -9,4 +11,5 @@ group :test do
   gem 'guard'
   gem 'minitest'
   gem 'guard-rspec'
+  gem 'redis'
 end

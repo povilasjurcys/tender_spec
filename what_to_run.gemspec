@@ -13,13 +13,13 @@ Gem::Specification.new do |s|
   s.files       = ['README.md', 'Rakefile']
   s.files       += Dir.glob("ext/**/*.*")
   s.files       += Dir.glob("lib/**/*.rb")
-  s.extensions  = %w[ext/coverage_peeker/extconf.rb]
 
   s.executables << 'what_to_run'
   s.required_ruby_version = '>= 1.9.3'
 
   s.add_development_dependency 'rake-compiler', '~> 0.9', '>= 0.9.0'
+  s.add_development_dependency 'pry-byebug'
 
   s.add_runtime_dependency 'rugged', '~> 0.21', '>= 0.21.0'
-  s.add_runtime_dependency 'sqlite3', '~> 1.3', '>= 1.3.10'
+  s.add_runtime_dependency 'redis'
 end

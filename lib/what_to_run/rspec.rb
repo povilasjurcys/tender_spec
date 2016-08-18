@@ -2,9 +2,11 @@ if ENV['COLLECT_WHAT_TO_RUN']
   require 'coverage'
   require 'what_to_run/tracker'
 
+  puts 'runing Rspec with regression coverage'
+
   Coverage.start
 
-  tracker = WhatToRun::Tracker.new(logs_path: ENV['COLLECT_WHAT_TO_RUN'])
+  tracker = WhatToRun::Tracker.new(root_path: ENV['COLLECT_WHAT_TO_RUN'])
 
   RSpec.configuration.before(:suite) do
     tracker.start
