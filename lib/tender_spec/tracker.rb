@@ -26,7 +26,6 @@ module TenderSpec
     def track(description, before, after)
       coverage_before = trim_coverage_data(before)
       coverage_after = trim_coverage_data(after)
-      binding.pry
 
       coverage = Differ.coverage_delta(coverage_before, coverage_after, @before_suite)
       storage.add(description, coverage)
@@ -35,7 +34,7 @@ module TenderSpec
     private
 
     def trim_coverage_data(coverage_hash)
-      important_path = "#{current_log_dir}/app/"
+      important_path = Rails.root.to_s
       coverage_hash.each_with_object({}) do |(file_path, data), formatted|
         next unless file_path.starts_with?(important_path)
         relative_path = file_path[important_path.length, file_path.length]

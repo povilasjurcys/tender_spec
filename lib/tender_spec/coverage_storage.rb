@@ -18,7 +18,9 @@ module TenderSpec
     end
 
     def missed_descriptions(descriptions)
-      descriptions.select { |description| description_lines[description].blank? }
+      descriptions.reject do |description|
+        description_lines.key?(description) and description_lines[description].any?
+      end
     end
 
     def ready?

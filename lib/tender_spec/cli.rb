@@ -7,7 +7,6 @@ module TenderSpec
     attr_reader :command, :run_options
 
     def initialize(arguments)
-      puts caller
       @run_options = Array(arguments).clone
       @command = run_options.shift || 'spec'
 
@@ -21,7 +20,7 @@ module TenderSpec
     end
 
     def spec
-      runner.run
+      runner.run_tests
     end
 
     def record

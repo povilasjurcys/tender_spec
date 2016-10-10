@@ -22,6 +22,7 @@ if ENV['TENDER_SPEC_MODE'] == 'record'
     example.call
     coverage_after = Coverage.peek_result
 
-    tracker.track(example.metadata[:full_description], coverage_before, coverage_after)
+    example_description = example.metadata[:full_description]
+    tracker.track(example_description, coverage_before, coverage_after)
   end
 end

@@ -30,7 +30,7 @@ module TenderSpec
 
       file_path = patch.delta.old_file[:path]
       patch.each_hunk do |hunk|
-        lines += modified_file_line_numbers(hunk).map { |line_no| "#{file_path}:#{line_no}" }
+        lines += modified_file_line_numbers(hunk).map { |line_no| "/#{file_path}:#{line_no}" }
       end
 
       lines

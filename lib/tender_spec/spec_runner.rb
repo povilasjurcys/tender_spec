@@ -1,5 +1,6 @@
 require 'tender_spec'
 require 'tender_spec/configuration'
+require 'tender_spec/runnable_tests_finder'
 require 'shellwords'
 require 'json'
 require_relative 'dir_locatable'
@@ -19,28 +20,27 @@ module TenderSpec
     end
 
     def run_tests
-      Kernel.exec "TENDER_SPEC_MODE=\"initialize\" #{command}"
+      puts "Running #{predicted_examples.count} out of #{available_examples.count} available examples"
+
+      args = predicted_examples.flat_map { |example| ['-e', example] }
+      Kernel.exec "TENDER_SPEC_MODE=\"initialize\" #{executable} #{Shellwords.join(args)}"
     end
 
-    def available_descriptions
-      json_text = `#{executable} --dry-run -f json #{command_line_options}`.split("\n").last
-      JSON.parse(json_text)['examples'].map { |example_data| example_data['full_description'] }
+    def available_examples
+      @available_descriptions ||= begin
+        json_text = `#{executable} --dry-run -f json #{command_line_options}`.split("\n").last
+        JSON.parse(json_text)['examples'].map { |example_data| example_data['full_description'] }
+      end
     end
 
     private
-
-    def command
-      "#{executable} #{predicted_example_args}"
-    end
 
     def executable
       Configuration.instance.rspec_command
     end
 
-    def predicted_example_args
-      examples = RunnableTestsFinder.new(available_descriptions: available_descriptions).test_names
-      args = examples.flat_map { |example| ['-e', example] }
-      Shellwords.join(args)
+    def predicted_examples
+      @predicted_examples ||= RunnableTestsFinder.new(available_descriptions: available_examples).test_names
     end
   end
 end

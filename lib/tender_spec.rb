@@ -11,7 +11,7 @@ module TenderSpec
   autoload :VERSION, 'tender_spec/version'
 
   class << self
-    def configuration
+    def configure
       yield Configuration.instance if block_given?
       Configuration.instance
     end
