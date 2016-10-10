@@ -16,7 +16,7 @@ shared_examples 'a sanity check' do |framework, run_cmd|
     after { FileUtils.rm_r sandbox_path }
 
     context 'collecting' do
-      let(:what_to_run_dir) { File.join(sandbox_app_path, '.what_to_run') }
+      let(:tender_spec_dir) { File.join(sandbox_app_path, '.tender_spec') }
 
       before do
         Bundler.with_clean_env do
@@ -27,25 +27,25 @@ shared_examples 'a sanity check' do |framework, run_cmd|
         end
       end
 
-      it 'creates .what_to_run dir' do
-        expect(Dir.exist?(what_to_run_dir)).to be_truthy
+      it 'creates .tender_spec dir' do
+        expect(Dir.exist?(tender_spec_dir)).to be_truthy
       end
 
       it 'creates log_run.db' do
-        run_log_path = File.join(what_to_run_dir, 'run_log.db')
+        run_log_path = File.join(tender_spec_dir, 'run_log.db')
         expect(File.exist?(run_log_path)).to be_truthy
       end
 
-      describe 'what_to_run command' do
-        def exec_what_to_run
+      describe 'tender_spec command' do
+        def exec_tender_spec
           Dir.chdir(sandbox_app_path) do
-            `bundle exec what_to_run #{framework}`
+            `bundle exec tender_spec #{framework}`
           end
         end
 
         context 'without any changes' do
           it 'runs nothing' do
-            output = exec_what_to_run
+            output = exec_tender_spec
             expect($CHILD_STATUS.to_i).to eq(0)
             expect(output).to eq('')
           end
@@ -59,9 +59,9 @@ shared_examples 'a sanity check' do |framework, run_cmd|
           end
 
           it 'runs the predicted examples' do
-            output = exec_what_to_run
+            output = exec_tender_spec
 
-            what_to_run_result_matches.each do |match|
+            tender_spec_result_matches.each do |match|
               expect(output).to include(match)
             end
           end

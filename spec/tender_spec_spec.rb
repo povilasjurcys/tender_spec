@@ -1,6 +1,6 @@
-require 'what_to_run'
+require 'tender_spec'
 
-describe WhatToRun do
+describe TenderSpec do
   describe '.predict' do
     let(:lines_to_run) do
       [['/path/to/foo.rb', 7], ['/path/to/bar.rb', 4]]
@@ -20,26 +20,26 @@ describe WhatToRun do
     end
 
     before do
-      allow(WhatToRun).to receive(:cov_map).and_return(cov_map)
-      allow(WhatToRun).to receive(:lines_to_run).and_return(lines_to_run)
+      allow(TenderSpec).to receive(:cov_map).and_return(cov_map)
+      allow(TenderSpec).to receive(:lines_to_run).and_return(lines_to_run)
     end
 
     it 'looks up tests by file name and line number' do
-      expect(WhatToRun.predict).to \
+      expect(TenderSpec.predict).to \
         match_array ['Test Foo 3', 'Test Bar 4', 'Test Bar 5']
     end
 
     it 'does not include unmatched tests' do
-      expect(WhatToRun.predict).not_to \
+      expect(TenderSpec.predict).not_to \
         include 'Test Bar 6', 'Test Foo 1', 'Test Foo 2'
     end
   end
 
   describe '.cov_map' do
-    let(:cov_map) {WhatToRun.cov_map}
+    let(:cov_map) {TenderSpec.cov_map}
 
     before do
-      allow(WhatToRun::Tracker).to \
+      allow(TenderSpec::Tracker).to \
         receive(:read) {|&block| coverage_delta.each(&block)}
     end
 

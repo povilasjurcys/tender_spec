@@ -1,6 +1,6 @@
-require 'what_to_run/runner'
+require 'tender_spec/runner'
 
-describe WhatToRun::Runner do
+describe TenderSpec::Runner do
   let(:executable) { 'bundle exec some_executable' }
   let(:runner) { described_class.new(exec: executable) }
 

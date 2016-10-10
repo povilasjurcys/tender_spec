@@ -1,12 +1,12 @@
-if ENV['COLLECT_WHAT_TO_RUN']
+if ENV['TENDER_SPEC_MODE'] == 'record'
   require 'coverage'
-  require 'what_to_run/tracker'
+  require 'tender_spec/tracker'
+  require 'tender_spec/coverage_storage'
 
   puts 'runing Rspec with regression coverage'
 
   Coverage.start
-
-  tracker = WhatToRun::Tracker.new(root_path: ENV['COLLECT_WHAT_TO_RUN'])
+  tracker = TenderSpec::Tracker.new
 
   RSpec.configuration.before(:suite) do
     tracker.start

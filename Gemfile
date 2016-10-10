@@ -12,4 +12,5 @@ group :test do
   gem 'minitest'
   gem 'guard-rspec'
   gem 'redis'
+  gem 'pry-byebug'
 end

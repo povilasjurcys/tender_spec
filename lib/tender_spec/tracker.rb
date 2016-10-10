@@ -3,44 +3,33 @@ require 'fileutils'
 require 'coverage'
 require_relative 'differ'
 require_relative 'dir_locatable'
-require_relative 'coverage_logger'
+require_relative 'coverage_storage'
 
-module WhatToRun
+module TenderSpec
   class Tracker
-    include WhatToRun::DirLocatable
+    include TenderSpec::DirLocatable
 
-    attr_reader :logger, :root_path
+    attr_reader :storage
 
-    def initialize(root_path: nil)
-      @root_path = root_path
-      @root_path = nil if root_path == ''
-
-      @logger = CoverageLogger.new
+    def initialize
+      @storage = CoverageStorage.new
     end
 
     def start
-      logger.clear_unfinished
       @before_suite = Coverage.peek_result
     end
 
     def finish
-      logger.finish
-    end
-
-    def finished?
-      logger.finished?
+      storage.save
     end
 
     def track(description, before, after)
       coverage_before = trim_coverage_data(before)
       coverage_after = trim_coverage_data(after)
+      binding.pry
 
       coverage = Differ.coverage_delta(coverage_before, coverage_after, @before_suite)
-      logger.log(description, coverage)
-    end
-
-    def read
-      JSON.parse File.read(coverage_json_path)
+      storage.add(description, coverage)
     end
 
     private

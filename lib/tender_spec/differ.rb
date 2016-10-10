@@ -1,4 +1,4 @@
-module WhatToRun
+module TenderSpec
   class Differ
     class << self
       ##

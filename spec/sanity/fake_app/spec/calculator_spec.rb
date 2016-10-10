@@ -1,4 +1,4 @@
-require 'what_to_run/rspec'
+require 'tender_spec/rspec'
 require File.expand_path('../lib/calculator', File.dirname(__FILE__))
 
 describe Calculator do

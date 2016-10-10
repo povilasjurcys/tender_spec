@@ -12,5 +12,5 @@ guard :rspec, cmd: 'bundle exec rspec' do
   ruby = dsl.ruby
   dsl.watch_spec_files_for(ruby.lib_files)
 
-  dsl.watch_spec_files_for(%r{^lib/what_to_run/(.+)\.rb$})
+  dsl.watch_spec_files_for(%r{^lib/tender_spec/(.+)\.rb$})
 end

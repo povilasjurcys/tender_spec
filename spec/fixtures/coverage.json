@@ -1,0 +1,6 @@
+{
+  "description_lines" : {
+    "test 1": ["foo.rb:1"],
+    "test 2": ["foo.rb:2", "bar.rb:2"]
+  }
+}

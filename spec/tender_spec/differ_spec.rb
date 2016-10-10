@@ -1,7 +1,7 @@
-require 'what_to_run/differ'
+require 'tender_spec/differ'
 
-describe WhatToRun::Differ do
-  subject {WhatToRun::Differ}
+describe TenderSpec::Differ do
+  subject {TenderSpec::Differ}
 
   describe '.coverage_delta' do
     let(:before_suite) do

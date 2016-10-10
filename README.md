@@ -1,8 +1,8 @@
 # What To Run
 
-[![Join the chat at https://gitter.im/DyegoCosta/what_to_run](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/DyegoCosta/what_to_run?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/DyegoCosta/tender_spec](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/DyegoCosta/tender_spec?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Build Status](https://travis-ci.org/DyegoCosta/what_to_run.svg?branch=master)](https://travis-ci.org/DyegoCosta/what_to_run)
+[![Build Status](https://travis-ci.org/DyegoCosta/tender_spec.svg?branch=master)](https://travis-ci.org/DyegoCosta/tender_spec)
 
 What To Run is a lib for regression test selection for Ruby projects, use it to predict which tests you should run when you make any modification on your codebase.
 
@@ -31,7 +31,7 @@ existing test suite.
 Add this line to your application's Gemfile:
 
 ```
-gem 'what_to_run'
+gem 'tender_spec'
 ```
 
 And then execute
@@ -43,7 +43,7 @@ $ bundle
 Or install it yourself as:
 
 ```
-$ gem install what_to_run
+$ gem install tender_spec
 ```
 
 ## Usage
@@ -53,13 +53,13 @@ Require it after requiring your test framework and before load your files to be 
 Minitest
 
 ```
-require 'what_to_run/minitest'
+require 'tender_spec/minitest'
 ```
 
 RSpec
 
 ```
-require 'what_to_run/rspec'
+require 'tender_spec/rspec'
 ```
 
 Run your full tests suite with COLLECT=1 on a **clean git branch**
@@ -81,7 +81,7 @@ This will create the initial coverage information. Then make your desired modifi
 Now to run the tests that could reveal faults do the following
 
 ```
-$ what_to_run <framework> [options]
+$ tender_spec <framework> [options]
 ```
 
 Supported frameworks are:
@@ -100,7 +100,7 @@ Options are:
 
 ## Contributing
 
-Open an [issue](https://github.com/DyegoCosta/what_to_run/issues) or fork it and submit a [pull-request](https://help.github.com/articles/using-pull-requests/).
+Open an [issue](https://github.com/DyegoCosta/tender_spec/issues) or fork it and submit a [pull-request](https://help.github.com/articles/using-pull-requests/).
 
 ## License
 

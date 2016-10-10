@@ -2,5 +2,5 @@ group :test do
   gem 'rake'
   gem 'rspec'
   gem 'minitest'
-  gem 'what_to_run', path: File.join('..', '..', '..', '..', '..' , 'what_to_run')
+  gem 'tender_spec', path: File.join('..', '..', '..', '..', '..' , 'tender_spec')
 end

@@ -1,6 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'what_to_run'
-
-WhatToRun::CLI.new.run ARGV
-

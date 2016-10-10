@@ -1,4 +1,4 @@
-require 'what_to_run/minitest'
+require 'tender_spec/minitest'
 require 'minitest/autorun'
 require File.expand_path('../lib/calculator', File.dirname(__FILE__))
 

@@ -1,8 +1,7 @@
 PATH
   remote: .
   specs:
-    what_to_run (1.0.2)
-      redis
+    tender_spec (0.0.1)
       rugged (~> 0.21, >= 0.21.0)
 
 GEM
@@ -87,7 +86,7 @@ DEPENDENCIES
   rake-compiler
   redis
   rspec (~> 3.2)
-  what_to_run!
+  tender_spec!
 
 BUNDLED WITH
    1.12.5

@@ -1,6 +1,6 @@
-require 'what_to_run/tracker'
+require 'tender_spec/tracker'
 
-describe WhatToRun::Tracker do
+describe TenderSpec::Tracker do
   subject { described_class.new }
 
   describe '.additional_databases' do
@@ -27,10 +27,10 @@ describe WhatToRun::Tracker do
     describe '.attach_databases!' do
       it 'attaches databases with numbered suffix starting from 2' do
         expect(subject::DB).to receive(:execute).once
-          .with("attach '.what_to_run/db2.db' as db2")
+          .with("attach '.tender_spec/db2.db' as db2")
 
         expect(subject::DB).to receive(:execute).once
-          .with("attach '.what_to_run/db3.db' as db3")
+          .with("attach '.tender_spec/db3.db' as db3")
 
         subject.send(:attach_databases!)
       end

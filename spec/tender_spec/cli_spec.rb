@@ -1,7 +1,7 @@
-require 'what_to_run/cli'
-require 'what_to_run/rspec/runner'
+require 'tender_spec/cli'
+require 'tender_spec/rspec/runner'
 
-describe WhatToRun::CLI do
+describe TenderSpec::CLI do
   describe '#run' do
     it 'aborts when no test framework is provided' do
       expect {subject.run(nil)}.to \
@@ -34,8 +34,8 @@ describe WhatToRun::CLI do
     end
 
     it 'requires and load rspec runner' do
-      expect(subject).to receive(:require).with('what_to_run/rspec/runner')
-      expect(call('rspec')).to eq(WhatToRun::RSpec::Runner)
+      expect(subject).to receive(:require).with('tender_spec/rspec/runner')
+      expect(call('rspec')).to eq(TenderSpec::RSpec::Runner)
     end
 
     it 'fails to load inexistent runner' do

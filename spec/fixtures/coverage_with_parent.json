@@ -1,0 +1,8 @@
+{
+  "parent_file_path": "spec/fixtures/coverage.json",
+
+  "description_lines": {
+    "test 3": ["foo.rb:1"],
+    "test 2": ["baz.rb:2"]
+  }
+}
