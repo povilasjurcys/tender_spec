@@ -29,11 +29,19 @@ module TenderSpec
     def available_examples
       @available_descriptions ||= begin
         json_text = `#{executable} --dry-run -f json #{command_line_options}`.split("\n").last
-        JSON.parse(json_text)['examples'].map { |example_data| example_data['full_description'] }
+
+        examples = JSON.parse(json_text)['examples'].map { |example_data| example_data['full_description'] }
+        register_tests(examples)
+
+        examples
       end
     end
 
     private
+
+    def register_tests(examples)
+      examples.each { |example| AppTest.find_or_create_by!(description: example) }
+    end
 
     def executable
       Configuration.instance.rspec_command

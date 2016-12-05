@@ -3,6 +3,7 @@ require_relative 'dir_locatable'
 
 module TenderSpec
   class GitChangesDetector
+    include DirLocatable
     attr_reader :project_path
 
     def initialize(project_path: '.')
@@ -12,14 +13,26 @@ module TenderSpec
     def modified_lines
       lines_to_run = Set.new
 
-      repository.index.diff.each_patch do |patch|
+      diff.each_patch do |patch|
         lines_to_run += patch_lines(patch)
       end
 
       lines_to_run
     end
 
+    def diff
+      uncommited_diff # TODO: add support for unmerged_diff
+    end
+
     private
+
+    def uncommited_diff # uncommited changes
+      repository.diff_workdir(repository.head.target)
+    end
+
+    def unmerged_diff # diff between "master" and working tree
+      repository.diff_workdir(repository.lookup(shared_commit_key))
+    end
 
     def repository
       @repository ||= Rugged::Repository.discover(project_path)
