@@ -30,7 +30,7 @@ module TenderSpec
         require 'tender_spec/models/app_test'
 
         create_model_database(AppTest, unique_index: :description) do |t|
-          t.text :description
+          t.text :description, length: 1000
         end
       end
 
@@ -38,7 +38,7 @@ module TenderSpec
         require 'tender_spec/models/line_test'
 
         unique_index = {
-          fields: [:app_test_id, :app_file_id, :line_no, :sha],
+          fields: [:app_test_id, :app_file_id, :line_no],
           name: :line_uniqueness_idx
         }
 

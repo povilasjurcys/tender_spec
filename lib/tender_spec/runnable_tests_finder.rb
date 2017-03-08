@@ -3,6 +3,7 @@ require_relative 'models/line_test'
 require_relative 'models/app_test'
 require_relative 'dir_locatable'
 require 'tender_spec/coverage_storage'
+require 'tender_spec/git_changes_detector'
 
 module TenderSpec
   class RunnableTestsFinder
