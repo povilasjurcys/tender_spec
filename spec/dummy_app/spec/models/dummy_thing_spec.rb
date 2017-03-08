@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe DummyThing do
-  subject(:thing) { described_class.new(test) }
+  subject(:thing) { described_class.new(name) }
   let(:name) { 'test' }
 
   describe '#name' do

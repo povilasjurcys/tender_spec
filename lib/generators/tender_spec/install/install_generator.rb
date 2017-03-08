@@ -29,7 +29,12 @@ module TenderSpec
       def create_app_tests_database
         require 'tender_spec/models/app_test'
 
-        create_model_database(AppTest, unique_index: :description) do |t|
+        unique_index = {
+          fields: [:description],
+          length: { description: 1000 }
+        }
+        
+        create_model_database(AppTest, unique_index: unique_index) do |t|
           t.text :description, length: 1000
         end
       end
@@ -38,7 +43,7 @@ module TenderSpec
         require 'tender_spec/models/line_test'
 
         unique_index = {
-          fields: [:app_test_id, :app_file_id, :line_no],
+          fields: [:app_test_id, :app_file_id, :line_no, :sha],
           name: :line_uniqueness_idx
         }
 
@@ -46,6 +51,7 @@ module TenderSpec
           t.integer :app_file_id
           t.integer :app_test_id
           t.integer :line_no
+          t.string :sha
         end
       end
 

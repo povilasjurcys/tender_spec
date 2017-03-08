@@ -1,6 +1,0 @@
-group :test do
-  gem 'rake'
-  gem 'rspec'
-  gem 'minitest'
-  gem 'tender_spec', path: File.join('..', '..', '..', '..', '..' , 'tender_spec')
-end

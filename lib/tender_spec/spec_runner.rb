@@ -20,6 +20,11 @@ module TenderSpec
     end
 
     def run_tests
+      if predicted_examples.count == 0
+        puts 'Nothing to run'
+        return
+      end
+
       puts "Running #{predicted_examples.count} out of #{available_examples.count} available examples"
 
       args = predicted_examples.flat_map { |example| ['-e', example] }

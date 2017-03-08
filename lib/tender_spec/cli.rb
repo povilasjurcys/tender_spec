@@ -14,11 +14,11 @@ module TenderSpec
     end
 
     def run
-      require './config/environment'
-      send(command)
+      public_send(command)
     end
 
     def spec
+      require './config/environment'
       runner.run_tests
     end
 

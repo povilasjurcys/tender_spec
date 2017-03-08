@@ -31,7 +31,7 @@ module TenderSpec
     private
 
     def default_storage
-      @default_storage ||= p(Rails.configuration.database_configuration['tender_spec'])
+      @default_storage ||= YAML.load_file('config/database.yml')['tender_spec']
     end
   end
 end

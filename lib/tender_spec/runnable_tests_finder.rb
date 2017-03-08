@@ -25,7 +25,6 @@ module TenderSpec
 
     def modified_line_tests
       lines = GitChangesDetector.new.modified_lines
-      puts lines.to_a
       app_test_for(lines: lines).pluck(:description)
     end
 
@@ -41,20 +40,13 @@ module TenderSpec
 
     def app_test_for(lines:)
       test_ids = Set.new
-      puts lines_by_path(lines)
+
       lines_by_path(lines).each do |path, lines|
         file = AppFile.find_by(path: path)
-        if file.nil?
-          puts "Missed: #{path}"
-          next
-        else
-          puts "Found: #{path}"
-        end
+        next if file.nil?
 
         query = { line_no: lines.to_a, sha: shared_commit_key, app_file_id: file.id }
-        puts query
-
-        test_ids += LineTest.where(line_no: lines.to_a, sha: shared_commit_key, app_file_id: file.id).pluck(:app_test_id)
+        test_ids += LineTest.where(query).pluck(:app_test_id)
       end
 
       AppTest.where(id: test_ids.to_a)

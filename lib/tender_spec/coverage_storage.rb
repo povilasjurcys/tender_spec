@@ -9,15 +9,10 @@ module TenderSpec
   class CoverageStorage
     include DirLocatable
 
-    attr_reader :coverage_path, :available_descriptions, :parent_file_path, :description_lines
+    attr_reader :available_descriptions, :parent_file_path, :description_lines
 
-    def initialize(coverage_path: nil)
-      @coverage_path = coverage_path || "#{current_log_dir}/coverage.json"
+    def initialize
       @description_lines = []
-    end
-
-    def ready?
-      File.exist?(coverage_path)
     end
 
     def add(description, coverage)
@@ -30,13 +25,13 @@ module TenderSpec
           description_lines << {
             description: description,
             path: file_name,
-            line_no: line_index + 1
+            line_no: line_index
           }
         end
       end
     end
 
-    def save_lines
+    def save
       file_id_by_path = lines_file_id_by_path
       test_id_by_description = lines_test_id_by_description
 
@@ -48,7 +43,7 @@ module TenderSpec
         "(#{sql_values})"
       end
 
-      AppTest.connection.execute "#{insert_sql} #{sql_values_list.join(', ')}"
+      AppTest.connection.execute("#{insert_sql} #{sql_values_list.join(', ')}") if sql_values_list.any?
     end
 
     def lines_file_id_by_path
@@ -73,7 +68,6 @@ module TenderSpec
       id_by_field
     end
 
-
     def descriptions(in_line:)
       file_path, line = in_line.split(':')
 
@@ -81,59 +75,6 @@ module TenderSpec
       app_line
 
       description_lines.select { |_, lines| lines.include?(in_line) }.keys
-    end
-
-    def save
-      save_lines
-      # json_lines = description_lines.each.with_object({}) do |(description, lines), result|
-      #   result[description] = lines.to_a
-      # end
-      #
-      # write_to_file(
-      #   description_lines: json_lines,
-      #   parent_file_path: parent_file_path,
-      # )
-    end
-
-    private
-
-    def write_to_file(json)
-      path = coverage_path.sub(/[^\/]+\.json$/, '')
-      FileUtils.mkdir_p(path)
-      File.write(coverage_path, JSON.pretty_generate(json))
-    end
-
-    def reset
-      data = data_from_file
-
-      @parent_file_path = data['parent_file_path']
-
-      file_description_lines = data['description_lines'] || {}
-      @description_lines = file_description_lines.each.with_object({}) do |(description, lines), result|
-        result[description] = Set.new(lines)
-      end
-
-      load_parent_data
-      # load_missing_descriptions
-    end
-
-    def load_parent_data
-      return unless parent_file_path
-
-      parent_logger = self.class.new(coverage_path: parent_file_path)
-      parent_logger.description_lines.each do |parent_description, parent_lines|
-        lines = description_lines.fetch(parent_description, Set.new) + parent_lines
-        description_lines[parent_description] = lines
-      end
-    end
-
-    def data_from_file
-      return {} unless File.exist?(coverage_path)
-
-      json_text = File.read(coverage_path)
-      return {} if json_text.nil? || json_text == ''
-
-      JSON.parse(json_text)
     end
   end
 end

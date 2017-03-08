@@ -13,24 +13,4 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
-  create_table "tender_spec_app_files", force: :cascade do |t|
-    t.string "path"
-  end
-
-  add_index "tender_spec_app_files", ["path"], name: "index_tender_spec_app_files_on_path"
-
-  create_table "tender_spec_app_tests", force: :cascade do |t|
-    t.text "description"
-  end
-
-  add_index "tender_spec_app_tests", ["description"], name: "index_tender_spec_app_tests_on_description"
-
-  create_table "tender_spec_line_tests", force: :cascade do |t|
-    t.integer "app_file_id"
-    t.integer "app_test_id"
-    t.integer "line_no"
-  end
-
-  add_index "tender_spec_line_tests", ["app_test_id", "app_file_id", "line_no", nil], name: "line_uniqueness_idx"
-
 end
