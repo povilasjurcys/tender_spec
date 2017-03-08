@@ -2,6 +2,7 @@ require_relative 'models/app_file'
 require_relative 'models/line_test'
 require_relative 'models/app_test'
 require_relative 'dir_locatable'
+require 'tender_spec/coverage_storage'
 
 module TenderSpec
   class RunnableTestsFinder

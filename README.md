@@ -46,6 +46,26 @@ Or install it yourself as:
 $ gem install tender_spec
 ```
 
+then add this to your config/database.yml file:
+```
+  tender_spec:
+    adapter: mysql2 # can be any adapter supported by active record
+    database: your_database_for_tender_spec_data
+    # ...
+```
+
+then
+
+```
+rake db:setup RAILS_ENV=tender_spec`
+```
+
+and finaly
+
+```
+rails g tender_spec:install`
+```
+
 ## Usage
 
 Require it after requiring your test framework and before load your files to be tested and your test suite config:

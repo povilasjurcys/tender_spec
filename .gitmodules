@@ -1,3 +1,0 @@
-[submodule "spec/fixtures/fake_repo"]
-	path = spec/fixtures/fake_repo
-	url = /home/deployer/projects/what_to_run/fake_repo

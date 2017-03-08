@@ -1,5 +1,3 @@
-require 'tender_spec/spec_runner'
-
 module TenderSpec
   class CLI
     ALLOWED_COMMANDS = %w(spec record).freeze
@@ -16,6 +14,7 @@ module TenderSpec
     end
 
     def run
+      require './config/environment'
       send(command)
     end
 
@@ -30,6 +29,7 @@ module TenderSpec
     private
 
     def runner
+      require 'tender_spec/spec_runner'
       SpecRunner.new(run_options.join(' '))
     end
   end

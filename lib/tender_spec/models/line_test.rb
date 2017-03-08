@@ -1,10 +1,8 @@
-require 'active_record'
-require_relative '../configuration'
+require 'tender_spec/models/base_model'
 
 module TenderSpec
   class LineTest < ActiveRecord::Base
-    establish_connection Configuration.instance.storage
-    self.table_name_prefix = 'tender_spec_'
+    include BaseModel
 
     belongs_to :app_test, class_name: 'TenderSpec::AppTest'
     belongs_to :app_file, class_name: 'TenderSpec::AppFile'
