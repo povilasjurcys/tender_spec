@@ -28,7 +28,7 @@ describe TenderSpec::Differ do
       }
     end
 
-    let(:delta) {subject.coverage_delta(before, after, before_suite)}
+    let(:delta) { subject.coverage_delta(before, after, before_suite) }
 
     it 'turns calculated negative results into 1' do
       expect(delta['foo.rb'][1]).to eq(1)

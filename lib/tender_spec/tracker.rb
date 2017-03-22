@@ -37,7 +37,7 @@ module TenderSpec
       important_path = Rails.root.to_s
       coverage_hash.each_with_object({}) do |(file_path, data), formatted|
         next unless file_path.starts_with?(important_path)
-        relative_path = file_path[important_path.length, file_path.length]
+        relative_path = file_path[important_path.length + 1, file_path.length]
         formatted[relative_path] = data
       end
     end

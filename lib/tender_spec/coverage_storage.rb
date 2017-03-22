@@ -25,7 +25,7 @@ module TenderSpec
           description_lines << {
             description: description,
             path: file_name,
-            line_no: line_index
+            line_no: line_index + 1
           }
         end
       end
@@ -34,16 +34,20 @@ module TenderSpec
     def save
       file_id_by_path = lines_file_id_by_path
       test_id_by_description = lines_test_id_by_description
-
-      insert_sql = 'REPLACE INTO tender_spec_line_tests (app_test_id, app_file_id, line_no, sha) VALUES'
       sha = shared_commit_key
-      sql_values_list = description_lines.map do |line|
-        description, path, line_no = line.values
-        sql_values = [test_id_by_description[description], file_id_by_path[path], line_no, "'#{sha}'"].join(', ')
-        "(#{sql_values})"
-      end
 
-      AppTest.connection.execute("#{insert_sql} #{sql_values_list.join(', ')}") if sql_values_list.any?
+      LineTest.transaction do
+        description_lines.each do |line|
+          description, path, line_no = line.values_at(:description, :path, :line_no)
+
+          LineTest.find_or_create_by!(
+            app_test_id: test_id_by_description[description],
+            app_file_id: file_id_by_path[path],
+            line_no: line_no,
+            sha: sha
+          )
+        end
+      end
     end
 
     def lines_file_id_by_path
@@ -68,13 +72,13 @@ module TenderSpec
       id_by_field
     end
 
-    def descriptions(in_line:)
-      file_path, line = in_line.split(':')
-
-      app_file = shared_app_commit.app_files.find_by(path: file_path)
-      app_line
-
-      description_lines.select { |_, lines| lines.include?(in_line) }.keys
-    end
+    # def descriptions(in_line:)
+    #   file_path, line = in_line.split(':')
+    #
+    #   app_file = shared_app_commit.app_files.find_by(path: file_path)
+    #   app_line
+    #
+    #   description_lines.select { |_, lines| lines.include?(in_line) }.keys
+    # end
   end
 end

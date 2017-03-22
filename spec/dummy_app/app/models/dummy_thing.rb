@@ -18,5 +18,6 @@ class DummyThing
   end
 
   def special_case_name
+    'I am special!'
   end
 end

@@ -2,11 +2,22 @@ require 'rails_helper'
 
 describe DummyThing do
   subject(:thing) { described_class.new(name) }
-  let(:name) { 'test' }
 
   describe '#name' do
-    it 'appends "Dummy" at the beggining' do
-      expect(thing.name).to eq 'Dummy test'
+    context 'with "first-test" name' do
+      let(:name) { 'first-test' }
+
+      it 'appends "Dummy" at the beggining' do
+        expect(thing.name).to eq 'Dummy test'
+      end
+    end
+
+    context 'with "second-test" name' do
+      let(:name) { 'second-test' }
+
+      it 'appends "Dummy" at the beggining' do
+        expect(thing.name).to eq 'Dummy test'
+      end
     end
   end
 end

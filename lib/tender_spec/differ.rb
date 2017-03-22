@@ -1,6 +1,32 @@
 module TenderSpec
   class Differ
     class << self
+
+      def coverage_delta_v2(cov_before, cov_after, cov_before_suite)
+        paths = cov_before.keys | cov_after.keys
+
+        paths.each.with_object({}) do |path, delta|
+          before_coverage = cov_before[path] || []
+          after_coverage = cov_after[path] || []
+          ignorable_coverage = cov_before_suite[path] || []
+
+          covered_lines_count = [after_coverage.length, before_coverage.length, ignorable_coverage.length].max
+
+          delta[path] = Array.new(covered_lines_count) do |i|
+            before_flag = before_coverage[i]
+            after_flag = after_coverage[i]
+            is_ignorable_flag = (ignorable_coverage[i] == 1)
+
+            if is_ignorable_flag
+              0
+            elsif before_flag || after_flag
+              [before_flag, after_flag].compact.max
+            else
+              (before_flag || after_flag || 1)
+            end
+          end
+        end
+      end
       ##
       # Gives the delta beteween the coverage result
       # before and after a test run and before starting
@@ -9,6 +35,7 @@ module TenderSpec
       # Results in the lines that may trigger the test
       # that gave the after result
       def coverage_delta(cov_before, cov_after, cov_before_suite)
+        return coverage_delta_v2(cov_before, cov_after, cov_before_suite)
         cov_after.each_with_object({}) do |(file_name, lines_cov_after), delta|
           lines_cov_before = cov_before[file_name]
           lines_cov_before_suite = cov_before_suite[file_name]
