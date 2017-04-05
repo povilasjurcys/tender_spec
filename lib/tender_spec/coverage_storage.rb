@@ -9,8 +9,6 @@ module TenderSpec
   class CoverageStorage
     include DirLocatable
 
-    attr_reader :available_descriptions, :parent_file_path, :description_lines
-
     def initialize
       @description_lines = []
     end
@@ -48,6 +46,10 @@ module TenderSpec
       end
     end
 
+    private
+
+    attr_reader :description_lines
+
     def lines_file_id_by_path
       lines_object_ids_by_field(AppFile, :path)
     end
@@ -69,14 +71,5 @@ module TenderSpec
 
       id_by_field
     end
-
-    # def descriptions(in_line:)
-    #   file_path, line = in_line.split(':')
-    #
-    #   app_file = shared_app_commit.app_files.find_by(path: file_path)
-    #   app_line
-    #
-    #   description_lines.select { |_, lines| lines.include?(in_line) }.keys
-    # end
   end
 end

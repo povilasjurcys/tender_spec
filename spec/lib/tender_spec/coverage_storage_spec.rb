@@ -3,8 +3,7 @@ require 'tempfile'
 require 'tender_spec/coverage_storage'
 
 describe TenderSpec::CoverageStorage do
-  subject(:logger) { described_class.new(coverage_path: coverage_path) }
-  let(:coverage_path) { 'spec/fixtures/coverage_with_parent.json' }
+  subject(:storage) { described_class.new }
 
   describe 'descriptions' do
     context 'when line exist' do

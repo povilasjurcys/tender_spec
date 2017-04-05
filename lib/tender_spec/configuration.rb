@@ -31,7 +31,11 @@ module TenderSpec
     private
 
     def default_storage
-      @default_storage ||= YAML.load_file('config/database.yml')['tender_spec']
+      @default_storage ||= if File.exist?('config/database.yml')
+        YAML.load_file('config/database.yml')['tender_spec']
+      else
+        {}
+      end
     end
   end
 end

@@ -35,7 +35,7 @@ module TenderSpec
     end
 
     def repository
-      @repository ||= Rugged::Repository.discover(project_path)
+      @repository ||= Rugged::Repository.discover('.')
     end
 
     def patch_lines(patch)

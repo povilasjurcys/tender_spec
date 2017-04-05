@@ -9,5 +9,9 @@ module TenderSpec
       yield Configuration.instance if block_given?
       Configuration.instance
     end
+
+    def root
+      File.dirname __dir__
+    end
   end
 end
