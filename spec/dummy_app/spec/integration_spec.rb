@@ -99,7 +99,7 @@ describe 'integration' do
           +  end
           +
           +  def name # this method is made intentionaly long
-          +    result = 'Modified-Dummy '
+          +    result = 'Dummy '
           +
           +    if @primary_name.starts_with?('VIP')
           -      primary_name = @primary_name.sub('VIP ', '')
