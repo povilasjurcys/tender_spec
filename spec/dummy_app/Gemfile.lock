@@ -2,6 +2,8 @@ PATH
   remote: ../..
   specs:
     tender_spec (0.0.1)
+      activerecord
+      activesupport
       rugged (~> 0.21, >= 0.21.0)
 
 GEM

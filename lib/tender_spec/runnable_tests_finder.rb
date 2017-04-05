@@ -16,16 +16,24 @@ module TenderSpec
     end
 
     def test_names
-      tests = Set.new
-      tests += modified_line_tests & available_descriptions
-      tests
+      available_modified_line_tests + untracked_tests
     end
 
     private
 
+    def untracked_tests
+      available_descriptions - modified_line_tests
+    end
+
+    def available_modified_line_tests
+      modified_line_tests & available_descriptions
+    end
+
     def modified_line_tests
-      lines = GitChangesDetector.new.modified_lines
-      app_test_for(lines: lines).pluck(:description)
+      @modified_line_tests ||= begin
+        lines = GitChangesDetector.new.modified_lines
+        app_test_for(lines: lines).pluck(:description)
+      end
     end
 
     def lines_by_path(lines)

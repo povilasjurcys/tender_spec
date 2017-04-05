@@ -2,4 +2,4 @@
 
 require 'tender_spec'
 
-TenderSpec::CLI.new(ARGV).run
+TenderSpec::Cli.new(ARGV).run

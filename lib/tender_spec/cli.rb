@@ -1,5 +1,7 @@
 module TenderSpec
-  class CLI
+  class Cli
+    autoload :SpecRunner, 'tender_spec/cli/spec_runner'
+
     ALLOWED_COMMANDS = %w(spec record).freeze
 
     attr_reader :command, :run_options
@@ -29,7 +31,6 @@ module TenderSpec
     private
 
     def runner
-      require 'tender_spec/spec_runner'
       SpecRunner.new(run_options.join(' '))
     end
   end
