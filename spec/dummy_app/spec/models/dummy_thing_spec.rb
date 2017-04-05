@@ -8,7 +8,7 @@ describe DummyThing do
       let(:name) { 'first-test' }
 
       it 'appends "Dummy" at the beggining' do
-        expect(thing.name).to eq 'Dummy test'
+        expect(thing.name).to eq 'Dummy first-test'
       end
     end
 
@@ -16,7 +16,7 @@ describe DummyThing do
       let(:name) { 'second-test' }
 
       it 'appends "Dummy" at the beggining' do
-        expect(thing.name).to eq 'Dummy test'
+        expect(thing.name).to eq 'Dummy second-test'
       end
     end
   end

@@ -1,7 +1,7 @@
 require 'json'
 require 'fileutils'
 require 'coverage'
-require_relative 'differ'
+require_relative 'covered_lines_finder'
 require_relative 'dir_locatable'
 require_relative 'coverage_storage'
 
@@ -26,12 +26,13 @@ module TenderSpec
     def track(description, before, after)
       coverage_before = trim_coverage_data(before)
       coverage_after = trim_coverage_data(after)
-
-      coverage = Differ.coverage_delta(coverage_before, coverage_after, @before_suite)
+      coverage = CoveredLinesFinder.new(coverage_before, coverage_after, before_suite).covered_lines_by_path
       storage.add(description, coverage)
     end
 
     private
+
+    attr_reader :before_suite
 
     def trim_coverage_data(coverage_hash)
       important_path = Rails.root.to_s

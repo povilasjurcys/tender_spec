@@ -18,14 +18,12 @@ module TenderSpec
     def add(description, coverage)
       @description_lines ||= []
 
-      coverage.each_pair do |file_name, file_coverage|
-        file_coverage.each.with_index do |is_covered, line_index|
-          next unless is_covered == 1
-
+      coverage.each_pair do |file_name, covered_lines|
+        covered_lines.each do |line_no|
           description_lines << {
             description: description,
             path: file_name,
-            line_no: line_index + 1
+            line_no: line_no
           }
         end
       end
