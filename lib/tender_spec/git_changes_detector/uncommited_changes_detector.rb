@@ -2,7 +2,7 @@ require_relative 'changes_detector'
 
 module TenderSpec
   class GitChangesDetector
-    class IndexChangesDetector
+    class UncommitedChangesDetector
       include ChangesDetector
 
       def diff

@@ -8,13 +8,13 @@ describe TenderSpec::CoverageStorage do
   describe 'descriptions' do
     context 'when line exist' do
       it 'returns descriptions' do
-        expect(logger.descriptions(in_line: 'foo.rb:1')).to eq ["test 3", "test 1"]
+        expect(logger.descriptions(in_line: 'foo.rb:1')).to eq ['test 3', 'test 1']
       end
     end
 
     context 'when line does not exist' do
       it 'returns empty list' do
-        expect(logger.descriptions(in_line: 'does_not_exist.rb:1')).to be_empty
+        expect(storage.descriptions(in_line: 'does_not_exist.rb:1')).to be_empty
       end
     end
   end
@@ -24,7 +24,7 @@ describe TenderSpec::CoverageStorage do
       let(:coverage_path) { 'spec/fixtures/empty_coverage.json' }
 
       it 'returns empty hash' do
-        expect(logger.description_lines).to be_empty
+        expect(storage.description_lines).to be_empty
       end
     end
 
@@ -32,7 +32,7 @@ describe TenderSpec::CoverageStorage do
       let(:coverage_path) { 'spec/fixtures/coverage.json' }
 
       it 'loads file content' do
-        expect(logger.description_lines).to eq(
+        expect(storage.description_lines).to eq(
           'test 1' => Set.new(['foo.rb:1']),
           'test 2' => Set.new(['foo.rb:2', 'bar.rb:2'])
         )
@@ -43,7 +43,7 @@ describe TenderSpec::CoverageStorage do
       let(:coverage_path) { 'spec/fixtures/coverage_with_parent.json' }
 
       it 'loads parent data too' do
-        expect(logger.description_lines).to eq(
+        expect(storage.description_lines).to eq(
           'test 3' => Set.new(['foo.rb:1']),
           'test 1' => Set.new(['foo.rb:1']),
           'test 2' => Set.new(['baz.rb:2', 'foo.rb:2', 'bar.rb:2'])
