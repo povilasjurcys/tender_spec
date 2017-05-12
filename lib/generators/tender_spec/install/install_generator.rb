@@ -1,8 +1,14 @@
 module TenderSpec
   module Generators
     class InstallGenerator < ::Rails::Generators::Base
+      NO_DB_MESSAGE = \
+        "\n\n== OH NOES! ==\n\nDatabase %{database} not found.\n" \
+        "Please run `rake db:create RAILS_ENV=tender_spec` before running `rails g tender_spec:install` again\n"
+
+      SUCCESS_MESSAGE = "\nWOOHO! tender_spec setup is done :)".freeze
+
       INITIALIZER_DESTINATION_PATH = 'config/initializers/tender_spec.rb'.freeze
-      source_root File.expand_path("../templates", __FILE__)
+      source_root File.expand_path('../templates', __FILE__)
 
       def copy_initializer_file
         copy_file 'tender_spec.rb', INITIALIZER_DESTINATION_PATH
@@ -10,13 +16,24 @@ module TenderSpec
 
       def migrate
         load INITIALIZER_DESTINATION_PATH # reload initializer
-
-        create_app_files_database
-        create_app_tests_database
-        create_line_tests_database
+        puts SUCCESS_MESSAGE if migrate_database
       end
 
       private
+
+      def migrate_database
+        create_db_tables
+      rescue ActiveRecord::NoDatabaseError
+        puts NO_DB_MESSAGE % { database: Configuration.instance.storage['database'].inspect }
+        false
+      end
+
+      def create_db_tables
+        create_app_files_database
+        create_app_tests_database
+        create_line_tests_database
+        true
+      end
 
       def create_app_files_database
         require 'tender_spec/models/app_file'
@@ -33,7 +50,7 @@ module TenderSpec
           fields: [:description],
           length: { description: 1000 }
         }
-        
+
         create_model_database(AppTest, unique_index: unique_index) do |t|
           t.text :description, length: 1000
         end
