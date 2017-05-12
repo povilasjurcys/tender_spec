@@ -15,7 +15,6 @@ describe 'integration' do
       # small hack to make it look like it was runned from root app
       TenderSpec::AppFile.find_each { |file| file.update(path: "spec/dummy_app/#{file.path}") }
     end
-
   end
 
   def run_tender_spec(debug: ENV['DEBUG_TENDER'].present?)
@@ -97,7 +96,7 @@ describe 'integration' do
 
       # on the left: how many times line was touched by tests
       expect_coverage_in_file 'app/models/dummy_thing.rb',
-        <<~COVERAGE.strip
+        <<-COVERAGE.strip_heredoc.strip
           2| class DummyThing
           2|   def initialize(name)
           2|     @primary_name = name
