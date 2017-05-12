@@ -1,6 +1,7 @@
 require 'shellwords'
 require 'json'
 require_relative '../dir_locatable'
+require 'active_support/core_ext/array'
 
 module TenderSpec
   class Cli
@@ -17,15 +18,29 @@ module TenderSpec
         Kernel.exec "TENDER_SPEC_MODE=\"record\" #{executable} #{command_line_options}"
       end
 
+      def lines_touched
+        app_test_ids = AppTest.where(description: available_examples).pluck(:id)
+        LineTest.where(app_test: app_test_ids).find_each.map(&:path).uniq.sort
+      end
+
+      def runnable_tests
+        @runnable_tests ||=  \
+          if app_files_given?
+            ReverseTestsFinder.new(command_line_files).test_names
+          else
+            RunnableTestsFinder.new(available_descriptions: available_examples).test_names
+          end
+      end
+
       def run_tests
-        if predicted_examples.count == 0
+        if runnable_tests.empty?
           puts 'Nothing to run'
           return
         end
 
-        puts "Running #{predicted_examples.count} out of #{available_examples.count} available examples"
+        display_prerun_notification
 
-        args = predicted_examples.flat_map { |example| ['-e', example] }
+        args = runnable_tests.flat_map { |example| ['-e', example] }
         Kernel.exec "TENDER_SPEC_MODE=\"initialize\" #{executable} #{Shellwords.join(args)}"
       end
 
@@ -41,6 +56,29 @@ module TenderSpec
       end
 
       private
+
+      def display_prerun_notification
+        if app_files_given?
+          puts "Running #{runnable_tests.count}"
+        else
+          puts "Running #{runnable_tests.count} out of #{available_examples.count} available examples"
+        end
+      end
+
+      def app_files_given?
+        !command_line_files.any? { |path| path.include?('_spec.rb') }
+      end
+
+      def command_line_files
+        command_line_options.split('-').first.to_s.split(' ')
+      end
+
+      def run_in_reverse
+        command_line_files.each.with_object({}) do |path, lines_by_file|
+          file_path, line = path.split(':')
+          lines_by_file[path]
+        end
+      end
 
       def register_tests(examples)
         examples.each { |example| AppTest.find_or_create_by!(description: example) }

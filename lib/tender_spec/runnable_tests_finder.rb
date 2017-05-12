@@ -22,7 +22,7 @@ module TenderSpec
     private
 
     def untracked_tests
-      available_descriptions - modified_line_tests
+      available_descriptions - AppTest.uniq.pluck(:description)
     end
 
     def available_modified_line_tests
