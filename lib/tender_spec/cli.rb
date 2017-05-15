@@ -1,6 +1,6 @@
 module TenderSpec
   class Cli
-    autoload :SpecRunner, 'tender_spec/cli/spec_runner'
+    autoload :CommandRunner, 'tender_spec/cli/command_runner'
     autoload :SpecsRecorder, 'tender_spec/cli/specs_recorder'
     autoload :ReverseTestsFinder, 'tender_spec/cli/reverse_tests_finder'
 
@@ -41,7 +41,7 @@ module TenderSpec
     private
 
     def runner
-      SpecRunner.new(run_options.join(' '))
+      CommandRunner.new(run_options.join(' '))
     end
   end
 end

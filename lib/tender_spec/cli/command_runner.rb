@@ -5,13 +5,13 @@ require 'active_support/core_ext/array'
 
 module TenderSpec
   class Cli
-    class SpecRunner
+    class CommandRunner
       include DirLocatable
 
       attr_reader :command_line_options
 
       def initialize(command_line_options)
-        @command_line_options = command_line_options
+        @command_line_options = OptionsParser(command_line_options)
       end
 
       def record
@@ -22,25 +22,8 @@ module TenderSpec
         CoverageFormatter::Formatter.new(available_examples).call
       end
 
-      def runnable_tests
-        @runnable_tests ||=  \
-          if app_files_given?
-            ReverseTestsFinder.new(command_line_files).test_names
-          else
-            RunnableTestsFinder.new(available_descriptions: available_examples).test_names
-          end
-      end
-
       def run_tests
-        if runnable_tests.empty?
-          puts 'Nothing to run'
-          return
-        end
-
-        display_prerun_notification
-
-        args = runnable_tests.flat_map { |example| ['-e', example] }
-        Kernel.exec "TENDER_SPEC_MODE=\"initialize\" #{executable} #{Shellwords.join(args)}"
+        SpecsRunner(available_examples, command_line_files).new.call
       end
 
       def available_examples
@@ -56,12 +39,8 @@ module TenderSpec
 
       private
 
-      def display_prerun_notification
-        if app_files_given?
-          puts "Running #{runnable_tests.count}"
-        else
-          puts "Running #{runnable_tests.count} out of #{available_examples.count} available examples"
-        end
+      def available_examples
+        @available_examples ||= AvailableExamplesList.new(executable, command_line_files)
       end
 
       def app_files_given?
