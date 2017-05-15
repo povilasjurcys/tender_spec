@@ -1,9 +1,6 @@
 require 'json'
 require 'fileutils'
 require_relative 'dir_locatable'
-require_relative 'models/app_test'
-require_relative 'models/line_test'
-require_relative 'models/app_file'
 
 module TenderSpec
   class CoverageStorage

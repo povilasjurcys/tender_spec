@@ -7,6 +7,8 @@ module TenderSpec
   autoload :AppFile, 'tender_spec/models/app_file'
   autoload :RunnableTestsFinder, 'tender_spec/runnable_tests_finder'
   autoload :DirLocatable, 'tender_spec/dir_locatable'
+  autoload :CoverageFormatter, 'tender_spec/coverage_formatter'
+  autoload :CoveredLinesFinder, 'tender_spec/covered_lines_finder'
 
   class << self
     def configure

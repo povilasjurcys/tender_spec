@@ -19,8 +19,7 @@ module TenderSpec
       end
 
       def lines_touched
-        app_test_ids = AppTest.where(description: available_examples).pluck(:id)
-        LineTest.where(app_test: app_test_ids).find_each.map(&:path).uniq.sort
+        CoverageFormatter::Formatter.new(available_examples).format
       end
 
       def runnable_tests

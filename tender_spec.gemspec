@@ -18,10 +18,11 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.3'
 
   s.add_development_dependency 'rake-compiler', '~> 0.9', '>= 0.9.0'
-  s.add_development_dependency 'pry-byebug'
+  s.add_development_dependency 'byebug'
   s.add_development_dependency 'sqlite3'
 
   s.add_runtime_dependency 'activesupport'
+  s.add_runtime_dependency 'simplecov'
   s.add_runtime_dependency 'activerecord'
   s.add_runtime_dependency 'rugged', '~> 0.21', '>= 0.21.0'
   end

@@ -30,7 +30,7 @@ module TenderSpec
     end
 
     def coverage
-      puts runner.lines_touched.join("\n")
+      puts runner.lines_touched
     end
 
     def test_descriptions

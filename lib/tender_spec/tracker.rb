@@ -1,6 +1,7 @@
 require 'json'
 require 'fileutils'
 require 'coverage'
+require 'singleton'
 require_relative 'covered_lines_finder'
 require_relative 'dir_locatable'
 require_relative 'coverage_storage'
@@ -8,11 +9,16 @@ require_relative 'coverage_storage'
 module TenderSpec
   class Tracker
     include TenderSpec::DirLocatable
+    include Singleton
 
     attr_reader :storage
 
     def initialize
       @storage = CoverageStorage.new
+    end
+
+    def self.start
+      instance.start
     end
 
     def start
@@ -38,6 +44,7 @@ module TenderSpec
       important_path = Rails.root.to_s
       coverage_hash.each_with_object({}) do |(file_path, data), formatted|
         next unless file_path.starts_with?(important_path)
+        next if file_path.starts_with?("#{important_path}/spec/")
         relative_path = file_path[important_path.length + 1, file_path.length]
         formatted[relative_path] = data
       end

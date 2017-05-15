@@ -6,7 +6,7 @@ if ENV['TENDER_SPEC_MODE'] == 'record'
   puts 'runing Rspec with regression coverage'
 
   Coverage.start
-  tracker = TenderSpec::Tracker.new
+  tracker = TenderSpec::Tracker.instance
 
   RSpec.configuration.before(:suite) do
     tracker.start

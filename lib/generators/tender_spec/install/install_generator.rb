@@ -14,6 +14,11 @@ module TenderSpec
         copy_file 'tender_spec.rb', INITIALIZER_DESTINATION_PATH
       end
 
+      def copy_rspec_hook
+        return unless File.exist?('spec/spec_helper.rb')
+        prepend_to_file 'spec/spec_helper.rb', "require 'tender_spec/hooks/rspec'\n"
+      end
+
       def migrate
         load INITIALIZER_DESTINATION_PATH # reload initializer
         puts SUCCESS_MESSAGE if migrate_database
