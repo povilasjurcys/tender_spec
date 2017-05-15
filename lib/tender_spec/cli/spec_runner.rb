@@ -15,11 +15,11 @@ module TenderSpec
       end
 
       def record
-        Kernel.exec "TENDER_SPEC_MODE=\"record\" #{executable} #{command_line_options}"
+        SpecsRecorder.new(executable, command_line_options).call
       end
 
-      def lines_touched
-        CoverageFormatter::Formatter.new(available_examples).format
+      def coverage
+        CoverageFormatter::Formatter.new(available_examples).call
       end
 
       def runnable_tests

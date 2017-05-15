@@ -1,9 +1,8 @@
-require 'active_support/concern'
-require 'active_record'
-require 'tender_spec/configuration'
-
 module TenderSpec
-  module BaseModel
+  require 'active_support/concern'
+  require 'active_record'
+
+  module LocalModel
     extend ActiveSupport::Concern
 
     included do

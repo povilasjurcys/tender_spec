@@ -1,8 +1,6 @@
-require 'tender_spec/models/base_model'
-
 module TenderSpec
   class LineTest < ActiveRecord::Base
-    include BaseModel
+    include LocalModel
 
     belongs_to :app_test, class_name: 'TenderSpec::AppTest'
     belongs_to :app_file, class_name: 'TenderSpec::AppFile'

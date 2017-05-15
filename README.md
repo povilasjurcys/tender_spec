@@ -108,15 +108,12 @@ Supported frameworks are:
 
 ```
 rspec
-minitest
 ```
 
-Options are:
+## TODO
 
-```
--e, --exec EXECUTABLE            Alternate test runner executable
--h, --help                       Prints this help
-```
+* add other test frameworks support
+* include "before suite" test coverage in simplecov report
 
 ## Contributing
 

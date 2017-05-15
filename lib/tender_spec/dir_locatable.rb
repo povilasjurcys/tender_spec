@@ -5,8 +5,12 @@ module TenderSpec
     INNER_ROOT_DIR = '.tender_spec'.freeze
 
     def current_log_dir
-      head_id = Rugged::Repository.new('.').head.target_id
+      head_id = repository.head.target_id
       [INNER_ROOT_DIR, head_id].join('/')
+    end
+
+    def repository
+      @repository ||= Rugged::Repository.discover('.')
     end
 
     def shared_commit_key

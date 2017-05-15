@@ -5,7 +5,7 @@ module TenderSpec
         @available_examples = available_examples
       end
 
-      def format
+      def call
         Result.new(raw_coverage).format!
       end
 

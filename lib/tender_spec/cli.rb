@@ -1,6 +1,7 @@
 module TenderSpec
   class Cli
     autoload :SpecRunner, 'tender_spec/cli/spec_runner'
+    autoload :SpecsRecorder, 'tender_spec/cli/specs_recorder'
     autoload :ReverseTestsFinder, 'tender_spec/cli/reverse_tests_finder'
 
     ALLOWED_COMMANDS = %w(spec record coverage test_descriptions).freeze
@@ -30,7 +31,7 @@ module TenderSpec
     end
 
     def coverage
-      puts runner.lines_touched
+      runner.coverage
     end
 
     def test_descriptions
